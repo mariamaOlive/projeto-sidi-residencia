@@ -30,8 +30,8 @@ def buscarHashtag(tag, data):
         os.mkdir(caminho_base)
         print("Diretório: ", caminho_base, " criado com sucesso!")
 
-    # 30 dias antes + 180 dias depois
-    for i in range(0,10,5):
+    # 30 dias antes + 365 dias depois
+    for i in range(0,395,5):
         dataS = ( dataInicial + timedelta(days=i) ).strftime("%Y-%m-%d")
         dataU = ( dataInicial + timedelta(days=i+5) ).strftime("%Y-%m-%d")
 
