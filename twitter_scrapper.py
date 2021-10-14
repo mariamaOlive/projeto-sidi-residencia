@@ -35,7 +35,8 @@ def buscarHashtag(tag, data):
 
         # Caso a coleta dê erro troque o valor da variavel abaixo "erro"
         # pelo numero do arquivo csv que deu erro
-        # Exemplo: deu erro enquanto baixava o arquivo "20.csv" 
+        # Exemplo: deu erro enquanto baixava o arquivo "20.csv",
+        #          APAGUE o arquivo 20.csv da pasta e então coloque abaixo: erro = 20 
         erro = 0
         if i < erro:
             continue
