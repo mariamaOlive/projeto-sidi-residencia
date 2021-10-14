@@ -31,9 +31,17 @@ def buscarHashtag(tag, data):
         print("Diretório: ", caminho_base, " criado com sucesso!")
 
     # 30 dias antes + 365 dias depois
-    for i in range(0,395,5):
+    for i in range(0,10,5):
+
+        # Caso a coleta dê erro troque o valor da variavel abaixo "erro"
+        # pelo numero do arquivo csv que deu erro
+        # Exemplo: deu erro enquanto baixava o arquivo "20.csv"
+        erro = 0
+        if i < erro:
+            continue
+
         dataS = ( dataInicial + timedelta(days=i) ).strftime("%Y-%m-%d")
-        dataU = ( dataInicial + timedelta(days=i+5) ).strftime("%Y-%m-%d")
+        dataU = ( dataInicial + timedelta(days=i+6) ).strftime("%Y-%m-%d")
 
         #Arquivo de saída
         arquivoSaida = caminho_base + f"{i}" + ".csv"
@@ -65,7 +73,7 @@ pd_series = pd.read_csv("input_twitter.csv")
 
 tamSeries = pd_series.shape[0]
 for i in range(tamSeries):
-	tag = pd_series.loc[i, 'hashtag']
-	data = pd_series.loc[i, 'data_lancamento']
+    tag = pd_series.loc[i, 'hashtag']
+    data = pd_series.loc[i, 'data_lancamento']
 
-	buscarHashtag(tag, data)
+    buscarHashtag(tag, data)
