@@ -31,7 +31,7 @@ def buscarHashtag(tag, data):
         print("Diretório: ", caminho_base, " criado com sucesso!")
 
     # 30 dias antes + 365 dias depois
-    for i in range(0,10,5):
+    for i in range(0,395,5):
 
         # Caso a coleta dê erro troque o valor da variavel abaixo "erro"
         # pelo numero do arquivo csv que deu erro
@@ -55,6 +55,7 @@ def buscarHashtag(tag, data):
         config.Until = dataU
         config.Hide_output = True
         config.Count = True 
+        config.Store_csv = True
         config.Output = arquivoSaida
 
         #Executar a busca
