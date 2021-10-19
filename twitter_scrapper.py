@@ -1,9 +1,12 @@
-import twint
-import os
-import pandas as pd
 from datetime import datetime
 from datetime import timedelta
 from pathlib import Path
+import twint
+import os
+import pandas as pd
+
+#import de outros arquivos
+from twitter_files import finalizacao_scrapping
 
 # -----------------------------------------------------------------------#
 # --------------------- Configurações para o Twint ----------------------#
@@ -38,6 +41,7 @@ def buscarHashtag(tag, data):
         # Exemplo: deu erro enquanto baixava o arquivo "20.csv",
         #          APAGUE o arquivo 20.csv da pasta e então coloque abaixo: erro = 20 
         erro = 0
+        
         if i < erro:
             continue
 
@@ -63,6 +67,7 @@ def buscarHashtag(tag, data):
         #Exibir na tela o progresso atual
         print(f"{hashTagOficial}. Fim do dia {i+1}. Data Inicial: {dataS} Data Final: {dataU}")
 
+    finalizacao_scrapping(caminho_absoluto, caminho_base, hashTagOficial[1:])
 
 # -----------------------------------------------------------------------#
 # ----------------------- Leitura de arquivo aqui -----------------------#
@@ -70,12 +75,12 @@ def buscarHashtag(tag, data):
 #tag = "#TheWitcher"
 #data = '2019-12-20'
 #data = '2019-01-20'
+if __name__ == '__main__':
+    pd_series = pd.read_csv("input_twitter.csv")
 
-pd_series = pd.read_csv("input_twitter.csv")
+    tamSeries = pd_series.shape[0]
+    for i in range(tamSeries):
+        tag = pd_series.loc[i, 'hashtag']
+        data = pd_series.loc[i, 'data_lancamento']
 
-tamSeries = pd_series.shape[0]
-for i in range(tamSeries):
-    tag = pd_series.loc[i, 'hashtag']
-    data = pd_series.loc[i, 'data_lancamento']
-
-    buscarHashtag(tag, data)
+        buscarHashtag(tag, data)
