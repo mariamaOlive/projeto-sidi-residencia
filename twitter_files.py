@@ -12,7 +12,8 @@ def juntar_series(caminho_relativo, caminho_serie, nome_serie):
     for nome_arquivo in lista_arq:
         caminho_arquivo = caminho_serie + nome_arquivo
 
-        if caminho_arquivo in os.listdir(Path(caminho_serie)):
+        lista_arquivos = os.listdir(Path(caminho_serie))
+        if nome_arquivo in lista_arquivos:
             df_arquivo = pd.read_csv(caminho_arquivo)
             lista_df.append(df_arquivo)
 
