@@ -7,12 +7,14 @@ def juntar_series(caminho_relativo, caminho_serie, nome_serie):
     lista_arq = []
     for i in range(390,-1,-5):
         lista_arq.append(f"{i}" + ".csv")
-        
+    
     lista_df = []
     for nome_arquivo in lista_arq:
         caminho_arquivo = caminho_serie + nome_arquivo
-        df_arquivo = pd.read_csv(caminho_arquivo)
-        lista_df.append(df_arquivo)
+
+        if caminho_arquivo in os.listdir(Path(caminho_serie)):
+            df_arquivo = pd.read_csv(caminho_arquivo)
+            lista_df.append(df_arquivo)
 
     df_final = pd.concat(lista_df)
     print(f"Head:\n{df_final['date'].head(5)}")
