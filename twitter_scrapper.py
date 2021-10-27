@@ -19,8 +19,8 @@ def buscarHashtag(tag, data):
     #Setando as datas de busca
     dataEstreiaString = data
     dataEstreia = datetime.strptime(dataEstreiaString, '%Y-%m-%d')
-    dataInicial = dataEstreia - timedelta(days=30)
-    dataFinal = dataEstreia + timedelta(days=180)
+    dataInicial = dataEstreia - timedelta(days=75)
+    dataFinal = dataEstreia + timedelta(days=150)
 
     #Diretorio de Trabalho
     caminho_absoluto = os.path.dirname(os.path.realpath(__file__))
@@ -33,8 +33,8 @@ def buscarHashtag(tag, data):
         os.mkdir(caminho_base)
         print("Diretório: ", caminho_base, " criado com sucesso!")
 
-    # 30 dias antes + 365 dias depois
-    for i in range(0,395,5):
+    # 75 dias antes + 155 dias depois
+    for i in range(0,230,5):
 
         # Caso a coleta dê erro troque o valor da variavel abaixo "erro"
         # pelo numero do arquivo csv que deu erro
