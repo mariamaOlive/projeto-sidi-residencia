@@ -3,6 +3,7 @@ from datetime import timedelta
 from pathlib import Path
 import twint
 import os
+import time
 import pandas as pd
 
 #import de outros arquivos
@@ -19,8 +20,8 @@ def buscarHashtag(tag, data):
     #Setando as datas de busca
     dataEstreiaString = data
     dataEstreia = datetime.strptime(dataEstreiaString, '%Y-%m-%d')
-    dataInicial = dataEstreia - timedelta(days=30)
-    dataFinal = dataEstreia + timedelta(days=180)
+    dataInicial = dataEstreia - timedelta(days=75)
+    dataFinal = dataEstreia + timedelta(days=150)
 
     #Diretorio de Trabalho
     caminho_absoluto = os.path.dirname(os.path.realpath(__file__))
@@ -33,8 +34,8 @@ def buscarHashtag(tag, data):
         os.mkdir(caminho_base)
         print("Diretório: ", caminho_base, " criado com sucesso!")
 
-    # 30 dias antes + 365 dias depois
-    for i in range(0,395,5):
+    # 75 dias antes + 155 dias depois
+    for i in range(0,230,5):
 
         # Caso a coleta dê erro troque o valor da variavel abaixo "erro"
         # pelo numero do arquivo csv que deu erro
@@ -52,20 +53,29 @@ def buscarHashtag(tag, data):
         arquivoSaida = caminho_base + f"{i}" + ".csv"
         print(arquivoSaida)
 
-        #Adicionar configurações
-        config = twint.Config()
-        config.Search = hashTagOficial
-        config.Since = dataS
-        config.Until = dataU
-        config.Hide_output = True
-        config.Count = True 
-        config.Store_csv = True
-        config.Output = arquivoSaida
+        flag_while = True
+        while flag_while == True:
+            try:
+                #Adicionar configurações
+                config = twint.Config()
+                config.Search = hashTagOficial
+                config.Since = dataS
+                config.Until = dataU
+                config.Hide_output = True
+                config.Count = True 
+                config.Store_csv = True
+                config.Output = arquivoSaida
 
-        #Executar a busca
-        twint.run.Search(config)
-        #Exibir na tela o progresso atual
-        print(f"{hashTagOficial}. Fim do dia {i+1}. Data Inicial: {dataS} Data Final: {dataU}")
+                #Executar a busca
+                twint.run.Search(config)
+                #Exibir na tela o progresso atual
+                print(f"{hashTagOficial}. Fim do dia {i+1}. Data Inicial: {dataS} Data Final: {dataU}")
+                flag_while = False
+            except:
+                print(f"\n\n\nERRO no arquivo {i}.csv    Apagando...")
+                os.remove(arquivoSaida)
+                time.sleep(8) #dorme por 8 segundos
+                print(f"Arquivo {i}. Apagado!\n Baixando o arquivo {i}.csv novamente...\n\n\n")
 
     finalizacao_scrapping(caminho_absoluto, caminho_base, hashTagOficial[1:])
 

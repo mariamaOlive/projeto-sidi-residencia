@@ -5,7 +5,7 @@ from pathlib import Path
 def juntar_series(caminho_relativo, caminho_serie, nome_serie):
     
     lista_arq = []
-    for i in range(390,-1,-5):
+    for i in range(225,-1,-5):
         lista_arq.append(f"{i}" + ".csv")
     
     lista_df = []
