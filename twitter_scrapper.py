@@ -12,7 +12,7 @@ from twitter_files import finalizacao_scrapping
 # -----------------------------------------------------------------------#
 # --------------------- Configurações para o Twint ----------------------#
 # -----------------------------------------------------------------------# 
-def buscarHashtag(tag, data):
+def buscarHashtag(nome, tag, data):
 
     #Setando a tag de busca
     hashTagOficial = tag
@@ -25,7 +25,8 @@ def buscarHashtag(tag, data):
 
     #Diretorio de Trabalho
     caminho_absoluto = os.path.dirname(os.path.realpath(__file__))
-    caminho_base = f"{caminho_absoluto}/{hashTagOficial[1:]}/"
+    caminho_base = f"{caminho_absoluto}/{nome}/"
+    #caminho_base = f"{caminho_absoluto}/{hashTagOficial[1:]}/"
 
     if Path(caminho_base).is_dir():
         print("OK! Diretório: ", caminho_base, " é um diretorio existente")
@@ -69,7 +70,7 @@ def buscarHashtag(tag, data):
                 #Executar a busca
                 twint.run.Search(config)
                 #Exibir na tela o progresso atual
-                print(f"{hashTagOficial}. Fim do dia {i+1}. Data Inicial: {dataS} Data Final: {dataU}")
+                print(f"{nome}. Fim do dia {i+1}. Data Inicial: {dataS} Data Final: {dataU}")
                 flag_while = False
             except:
                 print(f"\n\n\nERRO no arquivo {i}.csv    Apagando...")
@@ -77,20 +78,20 @@ def buscarHashtag(tag, data):
                 time.sleep(8) #dorme por 8 segundos
                 print(f"Arquivo {i}. Apagado!\n Baixando o arquivo {i}.csv novamente...\n\n\n")
 
-    finalizacao_scrapping(caminho_absoluto, caminho_base, hashTagOficial[1:])
+        #exit()
+
+    finalizacao_scrapping(caminho_absoluto, caminho_base, nome)
 
 # -----------------------------------------------------------------------#
 # ----------------------- Leitura de arquivo aqui -----------------------#
 # -----------------------------------------------------------------------#
-#tag = "#TheWitcher"
-#data = '2019-12-20'
-#data = '2019-01-20'
 if __name__ == '__main__':
     pd_series = pd.read_csv("input_twitter.csv")
 
     tamSeries = pd_series.shape[0]
     for i in range(tamSeries):
+        nome = pd_series.loc[i, 'nome']
         tag = pd_series.loc[i, 'hashtag']
         data = pd_series.loc[i, 'data_lancamento']
 
-        buscarHashtag(tag, data)
+        buscarHashtag(nome, tag, data)
