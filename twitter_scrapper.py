@@ -3,6 +3,7 @@ from datetime import timedelta
 from pathlib import Path
 import twint
 import os
+import time
 import pandas as pd
 
 #import de outros arquivos
@@ -52,20 +53,29 @@ def buscarHashtag(tag, data):
         arquivoSaida = caminho_base + f"{i}" + ".csv"
         print(arquivoSaida)
 
-        #Adicionar configurações
-        config = twint.Config()
-        config.Search = hashTagOficial
-        config.Since = dataS
-        config.Until = dataU
-        config.Hide_output = True
-        config.Count = True 
-        config.Store_csv = True
-        config.Output = arquivoSaida
+        flag_while = True
+        while flag_while == True:
+            try:
+                #Adicionar configurações
+                config = twint.Config()
+                config.Search = hashTagOficial
+                config.Since = dataS
+                config.Until = dataU
+                config.Hide_output = True
+                config.Count = True 
+                config.Store_csv = True
+                config.Output = arquivoSaida
 
-        #Executar a busca
-        twint.run.Search(config)
-        #Exibir na tela o progresso atual
-        print(f"{hashTagOficial}. Fim do dia {i+1}. Data Inicial: {dataS} Data Final: {dataU}")
+                #Executar a busca
+                twint.run.Search(config)
+                #Exibir na tela o progresso atual
+                print(f"{hashTagOficial}. Fim do dia {i+1}. Data Inicial: {dataS} Data Final: {dataU}")
+                flag_while = False
+            except:
+                print(f"\n\n\nERRO no arquivo {i}.csv    Apagando...")
+                os.remove(arquivoSaida)
+                time.sleep(8) #dorme por 8 segundos
+                print(f"Arquivo {i}. Apagado!\n Baixando o arquivo {i}.csv novamente...\n\n\n")
 
     finalizacao_scrapping(caminho_absoluto, caminho_base, hashTagOficial[1:])
 
